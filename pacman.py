@@ -111,7 +111,6 @@ def world():
 
 
 def move():
-    # Update ghost movement speed logic
     """Move pacman and all ghosts."""
     writer.undo()
     writer.write(state['score'])
@@ -155,6 +154,10 @@ def move():
 
         if valid(point + course):
             point.move(course)
+
+            # Take a second step when possible: ghosts move faster.
+            if valid(point + course):
+                point.move(course)
         else:
             options = [
                 vector(5, 0),
