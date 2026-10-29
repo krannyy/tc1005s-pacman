@@ -134,6 +134,24 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
+        # At each tile, pick the move that gets closest to pacman.
+        if point.x % 20 == 0 and point.y % 20 == 0:
+            best = None
+            best_dist = None
+
+            for option in (vector(5, 0), vector(-5, 0),
+                           vector(0, 5), vector(0, -5)):
+                if valid(point + option):
+                    dist = abs(pacman - (point + option))
+
+                    if best_dist is None or dist < best_dist:
+                        best = option
+                        best_dist = dist
+
+            if best is not None:
+                course.x = best.x
+                course.y = best.y
+
         if valid(point + course):
             point.move(course)
         else:
